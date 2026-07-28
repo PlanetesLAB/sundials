@@ -1,6 +1,6 @@
 [package]
 name = "sundials-sys"
-version = "0.7.0"
+version = "0.7.1"
 authors = [
     "Jason Dark <email@jkdark.com>",
     "Arthur Carcano <arthur.carcano@gmail.fr>",
