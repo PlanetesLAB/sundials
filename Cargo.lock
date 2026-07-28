@@ -326,14 +326,14 @@ dependencies = [
 
 [[package]]
 name = "sundials"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "sundials-sys",
 ]
 
 [[package]]
 name = "sundials-sys"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "bindgen 0.72.1",
  "cmake",
