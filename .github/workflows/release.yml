@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "sundials-sys-v*"
+      - "sundials-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            clang \
+            libclang-dev \
+            libblas-dev \
+            liblapack-dev \
+            libopenblas-dev \
+            libmpfr-dev \
+            libgomp1
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Test workspace
+        run: cargo test --workspace --all-features
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
