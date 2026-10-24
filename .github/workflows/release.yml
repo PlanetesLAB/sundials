@@ -1,42 +1,32 @@
-name: Release
+name: release
 
 on:
   push:
-    tags:
-      - "sundials-sys-v*"
-      - "sundials-v*"
+    branches: [main]
+  pull_request:
 
 permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
+  sundials:
+    uses: PlanetesLAB/release-workflows/.github/workflows/release.yml@v1
+    with:
+      manifest: sundials/Cargo.toml
+      tag-prefix: sundials-v
+      submodules: true
+      apt-packages: "libclang-dev libsuitesparse-dev cmake"
+      test-command: cargo test --all-features --workspace
+    secrets:
+      DEPS_TOKEN: ${{ secrets.DEPS_TOKEN }}
 
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          submodules: recursive
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            cmake \
-            clang \
-            libclang-dev \
-            libblas-dev \
-            liblapack-dev \
-            libopenblas-dev \
-            libmpfr-dev \
-            libgomp1
-
-      - uses: dtolnay/rust-toolchain@stable
-
-      - uses: Swatinem/rust-cache@v2
-
-      - name: Test workspace
-        run: cargo test --workspace
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+  sundials-sys:
+    uses: PlanetesLAB/release-workflows/.github/workflows/release.yml@v1
+    with:
+      manifest: sundials-sys/Cargo.toml
+      tag-prefix: sundials-sys-v
+      submodules: true
+      apt-packages: "libclang-dev libsuitesparse-dev cmake"
+      test-command: cargo test --all-features --workspace
+    secrets:
+      DEPS_TOKEN: ${{ secrets.DEPS_TOKEN }}
