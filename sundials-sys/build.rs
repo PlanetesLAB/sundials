@@ -187,6 +187,10 @@ fn generate_bindings(
         ])
         .parse_callbacks(Box::new(ParseSignedConstants))
         .parse_callbacks(Box::new(IgnoreMacros::new()))
+        .blocklist_function("malloc")
+        .blocklist_function("realloc")
+        .blocklist_function("calloc")
+        .blocklist_function("free")
         .generate()
 }
 
