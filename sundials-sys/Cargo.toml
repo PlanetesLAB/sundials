@@ -27,9 +27,9 @@ exclude = [
 ]
 
 [build-dependencies]
-bindgen = "0.72.1"
+bindgen = "0.73.2"
 cmake = "0.1.58"
-pkg-config = { version = "0.3.33", optional = true }
+pkg-config = { version = "0.3.34", optional = true }
 
 [target.'cfg(target_env = "msvc")'.build-dependencies]
 vcpkg = "0.2.15"
